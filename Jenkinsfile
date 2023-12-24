@@ -6,7 +6,7 @@ def deployments = [
 pipeline {
     agent any
     environment {
-        DOCKER_ID = 'moodysan'
+        DOCKER_ID = 'ajaxaueleke'
         DOCKER_PASSWORD = credentials('docker-password')
     }
     stages {
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                    echo 'clone application code from branch ${dir}....'
-                   git branch: "${dir}", url: 'https://github.com/Moody-san/microservice-backend'
+                   git branch: "${dir}", url: 'https://github.com/AjaxAueleke/microservice-backend'
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
                     script {
                         deployments.each{ deployment ->
                             echo 'clone manifests repo....'
-                            git branch: "${deployment.branch}", url: 'https://github.com/Moody-san/k8s-manifests'
+                            git branch: "${deployment.branch}", url: 'https://github.com/AjaxAueleke/k8s-manifests'
                             echo "updating deployment file for ${deployment.dirName} cluster...."
                             withCredentials([usernamePassword(credentialsId: 'GITHUB_TOKEN', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 def direxists = sh(script: "ls -1 ./manifests/ | grep ${dir}", returnStdout: true).trim()
